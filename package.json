@@ -1,0 +1,28 @@
+{
+  "name": "film-platform-microfrontends",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:shell": "npm run dev --workspace=shell",
+    "dev:catalog": "npm run dev --workspace=mfe-film-catalog",
+    "dev:user": "npm run dev --workspace=mfe-user-account",
+    "dev:cart": "npm run dev --workspace=mfe-shopping-cart",
+    "dev:notifications": "npm run dev --workspace=mfe-notifications",
+    "dev:all": "npm-run-all --parallel dev:catalog dev:user dev:cart dev:notifications dev:shell",
+    "build:shell": "npm run build --workspace=shell",
+    "build:catalog": "npm run build --workspace=mfe-film-catalog",
+    "build:user": "npm run build --workspace=mfe-user-account",
+    "build:cart": "npm run build --workspace=mfe-shopping-cart",
+    "build:notifications": "npm run build --workspace=mfe-notifications",
+    "build:all": "npm-run-all build:catalog build:user build:cart build:notifications build:shell"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.4.3",
+    "postcss": "^8.4.38",
+    "autoprefixer": "^10.4.19"
+  }
+}

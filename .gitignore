@@ -1,0 +1,81 @@
+# Node.js & NPM
+###########################################
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+# This will ignore node_modules at the root and in any subdirectory (e.g., packages/shell/node_modules)
+**/node_modules/
+
+# Optional: Lockfiles. It's generally recommended to commit package-lock.json
+# If you decide not to, uncomment the line below.
+# package-lock.json
+
+# TypeScript cache files (if you decide to use TypeScript)
+# *.tsbuildinfo
+# tsconfig.tsbuildinfo
+
+# Vite specific
+###########################################
+# Vite cache directory
+**/.vite/
+
+# Build Output / Distribution Folders
+###########################################
+# Common build output directory for Vite and other tools
+**/dist/
+**/build/ # Less common for Vite, but good to have
+**/out/   # Can be used by some tools
+
+# OS generated files
+###########################################
+# Mac
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE & Editor Directories/Files
+###########################################
+# JetBrains IDEs (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+
+# Visual Studio Code
+# Commit .vscode/extensions.json and .vscode/settings.json if they contain project-specific
+# recommendations/settings beneficial for the team.
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+# !.vscode/launch.json
+# !.vscode/tasks.json
+
+# Environment Variables
+###########################################
+# Ignore all .env files, but keep examples
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Temporary files
+###########################################
+*.tmp
+*~
+*.swp
+*.swo
