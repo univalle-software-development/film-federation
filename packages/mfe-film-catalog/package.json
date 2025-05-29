@@ -4,29 +4,38 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "serve": "webpack serve --mode production --port 5001",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@module-federation/enhanced": "^0.14.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "shared-components": "1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.27.3",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.25.0",
-    "@originjs/vite-plugin-federation": "^1.4.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "html-webpack-plugin": "^5.6.3",
     "postcss": "^8.5.3",
+    "postcss-loader": "^8.1.1",
+    "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.17",
-    "vite": "^6.3.5"
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
   }
 }

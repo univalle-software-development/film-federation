@@ -43,31 +43,38 @@ class MFEErrorBoundary extends React.Component {
   }
 }
 
-// MFE Loader utility
-const MFEComponentLoader = ({ remoteName, exposedModule, fallbackText = 'Loading Microfrontend...' }) => {
-  // Fix the template string - current one has HTML artifacts
-  const modulePath = `${remoteName}/${exposedModule.replace('./', '')}`;
-  console.log(`Attempting to import MFE module: ${modulePath}`);
-  
-  const Component = React.lazy(() => import(/* @vite-ignore */ modulePath));
+const loadRemoteModule = (remoteName, exposedModule) => async () => {
+  // 1) Initialize shared scope. This fills it with known modules from this build and all remotes
+  await __webpack_init_sharing__('default');
+  // 2) Retrieve the container (mounted on window by ModuleFederationPlugin)
+  const container = window[remoteName];
+  // 3) Initialize the container, it may provide shared modules
+  await container.init(__webpack_share_scopes__.default);
+  // 4) Get the module factory and execute it
+  const factory = await container.get(exposedModule);
+  return factory();
+};
+
+const MFEComponentLoader = ({ remoteName, exposedModule, fallbackText }) => {
+  const Component = React.lazy(loadRemoteModule(remoteName, exposedModule));
+
   return (
     <MFEErrorBoundary mfeName={`${remoteName}/${exposedModule}`}>
-      <Suspense fallback={<div className="p-4 text-center text-lg animate-pulse">{fallbackText}</div>}>
+      <Suspense fallback={<div className="p-4 text-center">{fallbackText}</div>}>
         <Component />
       </Suspense>
     </MFEErrorBoundary>
   );
 };
 
-const FilmCatalogPage = () => {
-  console.log("Attempting to load Film Catalog MFE");
-  return <MFEComponentLoader 
-    remoteName="mfeFilmCatalog" 
-    exposedModule="./FilmCatalogApp" 
-    fallbackText="Loading Film Catalog..." 
-  />;
-};;
-// const UserAccountPage = () => <MFEComponentLoader remoteName="mfeUserAccount" exposedModule="./UserAccountApp" />;
+// Then your FilmCatalogPage stays the same:
+const FilmCatalogPage = () => (
+  <MFEComponentLoader
+    remoteName="mfeFilmCatalog"
+    exposedModule="./FilmCatalogApp"
+    fallbackText="Loading Film Catalog..."
+  />
+);
 
 const HomePage = () => (
   <div className="text-center p-10">

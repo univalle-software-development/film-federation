@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'shared-components';
-
+import './index.css';
 
 const FilmCatalogApp = () => {
   const [message, setMessage] = useState('Waiting for a button click...');

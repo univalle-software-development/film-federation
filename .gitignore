@@ -4,6 +4,8 @@
 logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Runtime data
 pids
@@ -12,28 +14,31 @@ pids
 *.pid.lock
 
 # Dependency directories
-# This will ignore node_modules at the root and in any subdirectory (e.g., packages/shell/node_modules)
+# This will ignore node_modules at the root and in any subdirectories
 **/node_modules/
 
-# Optional: Lockfiles. It's generally recommended to commit package-lock.json
-# If you decide not to, uncomment the line below.
-# package-lock.json
+# Optional npm cache directory
+.npm
 
-# TypeScript cache files (if you decide to use TypeScript)
-# *.tsbuildinfo
-# tsconfig.tsbuildinfo
+# Optional eslint cache
+.eslintcache
 
-# Vite specific
+# Webpack specific
 ###########################################
-# Vite cache directory
-**/.vite/
+# Webpack cache directories
+**/.webpack/
+.cache/
+**/cache/
 
 # Build Output / Distribution Folders
 ###########################################
-# Common build output directory for Vite and other tools
+# Common build output directories for webpack
 **/dist/
-**/build/ # Less common for Vite, but good to have
-**/out/   # Can be used by some tools
+**/build/
+**/public/dist/
+
+# Babel cache
+**/.babel-cache/
 
 # OS generated files
 ###########################################
@@ -57,8 +62,7 @@ $RECYCLE.BIN/
 *.iml
 
 # Visual Studio Code
-# Commit .vscode/extensions.json and .vscode/settings.json if they contain project-specific
-# recommendations/settings beneficial for the team.
+# Commit recommended extensions and settings
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -79,3 +83,12 @@ $RECYCLE.BIN/
 *~
 *.swp
 *.swo
+
+# Module Federation specific
+###########################################
+# Some teams choose to ignore the remoteEntry.js files in development
+# Uncomment if you want to ignore them
+# **/remoteEntry.js
+
+# Coverage reports (if using Jest or other testing frameworks)
+coverage/
