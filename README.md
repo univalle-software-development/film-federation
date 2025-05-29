@@ -19,7 +19,7 @@ The platform consists of:
 1. **Clone the repository:**
    ```bash
    git clone <your-repository-url>
-   cd film-platform-microfrontends
+   cd film-federation
    ```
 
 2. **Install dependencies:**
