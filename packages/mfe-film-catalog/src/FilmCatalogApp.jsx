@@ -1,57 +1,83 @@
-import React, { useState } from 'react';
-import { Button } from 'shared-components';
-import './index.css';
-
+import React, { useEffect, useState } from "react";
+import { Button } from "shared-components";
+import "./index.css";
 const FilmCatalogApp = () => {
-  const [message, setMessage] = useState('Waiting for a button click...');
-
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+  if (!API_KEY) {
+    console.error(
+      "TMDB_API_KEY no está configurada en las variables de entorno",
+    );
+  }
+  const BASE_URL = "https://api.themoviedb.org/3";
+  const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+  const fetchMovies = async (page = 1) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(
+        `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${page}`,
+      );
+      if (!response.ok) {
+        throw new Error("Error al cargar las películas");
+      }
+      const data = await response.json();
+      if (page === 1) {
+        setMovies(data.results);
+      } else {
+        setMovies((prev) => [...prev, ...data.results]);
+      }
+      setCurrentPage(page);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+  const loadMoreMovies = () => {
+    fetchMovies(currentPage + 1);
+  };
+  const MovieCard = ({ movie }) => (
+    <div>
+      <div className="p-4">
+        <h3>
+          {movie.title}
+        </h3>
+      </div>
+    </div>
+  );
   return (
-    <div className="max-w-2xl mx-auto my-8 p-6 bg-white rounded-xl shadow-2xl border border-gray-200">
-      <header className="mb-6 text-center">
-        <h1 className="text-4xl font-bold text-blue-700">🎬 Film Catalog MFE</h1>
-        <p className="text-gray-500 mt-2">Browse our amazing collection of films!</p>
+    <div className="max-w-6xl mx-auto my-8 p-6">
+      <header className="mb-8 text-center">
+        <h1>
+          🎬 Film Catalog MFE
+        </h1>
       </header>
-
-      <div className="text-center mb-8">
-        <img 
-          src="https://placehold.co/600x300/3498db/ffffff?text=Awesome+Film+Banner&font=montserrat" 
-          alt="Film Banner" 
-          className="rounded-lg shadow-md mx-auto"
-        />
-      </div>
-
-      <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-        <p className="text-lg text-gray-700 mb-4 font-mono">{message}</p>
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-          <Button 
-            variant="primary"
-            onClick={() => setMessage('Primary Action: Viewing All Films! 🎉')}
-            className="w-full sm:w-auto"
-          >
-            View All Films
-          </Button>
-          <Button 
-            variant="secondary"
-            onClick={() => setMessage('Secondary Action: Searching Films... 🔍')}
-            className="w-full sm:w-auto"
-          >
-            Search Films
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={() => setMessage('Outline Action: Filters Applied! ✨')}
-            className="w-full sm:w-auto"
-          >
-            Apply Filters
-          </Button>
-        </div>
-      </div>
-
-      <footer className="mt-8 text-center text-sm text-gray-400">
-        <p>Powered by Microfrontends & Tailwind CSS</p>
+      {movies.length > 0 && (
+        <>
+          <div>
+            {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+          </div>
+          <div className="text-center">
+            <Button
+              onClick={loadMoreMovies}
+              disabled={loading}
+            >
+              {loading ? "⏳ Cargando..." : "📚 Cargar Más Películas"}
+            </Button>
+          </div>
+        </>
+      )}
+      <footer>
+        {/* Acá podemos colocar la información del grupo de trabajo --> */}
       </footer>
     </div>
   );
 };
-
 export default FilmCatalogApp;
