@@ -76,6 +76,14 @@ const FilmCatalogPage = () => (
   />
 );
 
+const FilmDetailsPage = () => (
+  <MFEComponentLoader
+    remoteName="mfeFilmDetails"
+    exposedModule="./FilmDetailsApp"
+    fallbackText="Loading Film Details..."
+  />
+);
+
 const HomePage = () => (
   <div className="text-center p-10">
     <h2 className="text-3xl font-bold mb-4 text-gray-800">Welcome to the Film Platform</h2>
@@ -94,6 +102,7 @@ function App() {
             <ul className="flex items-center justify-center space-x-6">
               <li><Link to="/" className="hover:text-gray-300 transition-colors">Home (Shell)</Link></li>
               <li><Link to="/catalog" className="hover:text-gray-300 transition-colors">Film Catalog (MFE)</Link></li>
+              <li><Link to="/details" className="hover:text-gray-300">Film Details (MFE)</Link></li>
               {/* <li><Link to="/account" className="hover:text-gray-300">User Account (MFE)</Link></li> */}
             </ul>
           </nav>
@@ -102,6 +111,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/catalog" element={<FilmCatalogPage />} />
+            <Route path="/details" element={<FilmDetailsPage />} />
             {/* <Route path="/account" element={<UserAccountPage />} /> */}
           </Routes>
         </main>
