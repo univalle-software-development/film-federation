@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require(
   '@module-federation/enhanced/webpack'
 );
+const webpack = require("webpack");
+const dotenv = require("dotenv");
 const path = require('path');
 const deps = require('./package.json').dependencies;
-
+dotenv.config();
 module.exports = {
   entry: "./src/main.jsx",
   mode: 'development',
@@ -61,5 +63,11 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({ template: './index.html' }),
+    new webpack.DefinePlugin({
+      "process.env.REACT_APP_TMDB_API_KEY": JSON.stringify(
+        process.env.REACT_APP_TMDB_API_KEY ||
+          dotenv.parsed?.REACT_APP_TMDB_API_KEY || "",
+      ),
+    }),
   ],
 };
