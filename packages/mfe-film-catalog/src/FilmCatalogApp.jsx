@@ -14,6 +14,10 @@ const FilmCatalogApp = () => {
   }
   const BASE_URL = "https://api.themoviedb.org/3";
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+  const goToDetails = (id) => {
+    window.history.pushState(null, "", `/details/${id}`);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
   const fetchMovies = async (page = 1) => {
     try {
       setLoading(true);
@@ -44,7 +48,10 @@ const FilmCatalogApp = () => {
     fetchMovies(currentPage + 1);
   };
   const MovieCard = ({ movie }) => (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+    <div
+      onClick={() => goToDetails(movie.id)}
+      className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
       <div className="relative">
         <img
           src={movie.poster_path
