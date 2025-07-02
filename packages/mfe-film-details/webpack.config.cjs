@@ -1,29 +1,31 @@
-// packages/shell/webpack.config.js
+// packages/mfe-film-details/webpack.config.cjs
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('@module-federation/enhanced/webpack');
+const { ModuleFederationPlugin } = require(
+  '@module-federation/enhanced/webpack'
+);
+const webpack = require("webpack");
+const dotenv = require("dotenv");
 const path = require('path');
 const deps = require('./package.json').dependencies;
-
+dotenv.config();
 module.exports = {
-  entry: './src/main.jsx', // Your current entry point
+  entry: "./src/main.jsx",
   mode: 'development',
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    port: 5000,
+    port: 5002,
     historyApiFallback: true,
     headers: {
-        'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': '*',
     }
   },
   output: {
-    publicPath: 'http://localhost:5000/', // URL where shell is served
-    // filename: 'bundle.js',
-    // path: path.resolve(__dirname, 'dist'),
+    publicPath: "http://localhost:5002/",
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [".js", ".jsx", ".json"],
   },
   module: {
     rules: [
@@ -49,18 +51,23 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'shell',
-      remotes: {
-        // This key must match the remoteName you pass to MFEComponentLoader
-        mfeFilmCatalog: 'mfeFilmCatalog@http://localhost:5001/remoteEntry.js',
-        mfeFilmDetails: 'mfeFilmDetails@http://localhost:5002/remoteEntry.js'
+      name: "mfeFilmDetails", // Unique name for this MFE (camelCase)
+      filename: "remoteEntry.js",
+      exposes: {
+        "./FilmDetailsApp": "./src/FilmDetailsApp.jsx",
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
-        // any other shared libs…
+        // Add other shared dependencies as needed
       },
     }),
     new HtmlWebpackPlugin({ template: './index.html' }),
+    new webpack.DefinePlugin({
+      "process.env.REACT_APP_TMDB_API_KEY": JSON.stringify(
+        process.env.REACT_APP_TMDB_API_KEY ||
+          dotenv.parsed?.REACT_APP_TMDB_API_KEY || "",
+      ),
+    }),
   ],
 };

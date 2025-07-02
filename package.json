@@ -8,10 +8,12 @@
   "scripts": {
     "dev:shell": "npm run start --workspace=shell",
     "dev:catalog": "npm run start --workspace=mfe-film-catalog",
-    "dev:all": "npm-run-all --parallel dev:catalog dev:shell",
+    "dev:details": "npm run start --workspace=mfe-film-details",
+    "dev:all": "npm-run-all --parallel dev:catalog dev:shell dev:details",
     "build:shell": "npm run build --workspace=shell",
     "build:catalog": "npm run build --workspace=mfe-film-catalog",
-    "build:all": "npm-run-all build:catalog build:shell"
+    "build:details": "npm run build --workspace=mfe-film-details",
+    "build:all": "npm-run-all build:catalog build:details build:shell"
   },
   "devDependencies": {
     "@babel/core": "^7.27.3",
