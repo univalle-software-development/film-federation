@@ -8,7 +8,7 @@ const FilmCatalogApp = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
-  const TOKEN_READ_ACCES = process.env.TOKEN;
+  const TOKEN = process.env.TOKEN_READ_ACCES;
   if (!API_KEY) {
     console.error(
       "TMDB_API_KEY no está configurada en las variables de entorno",
@@ -29,7 +29,7 @@ const FilmCatalogApp = () => {
         : `/movie/popular?api_key=${API_KEY}&language=es-ES&page=${page}`;
 
       const response = await fetch(`${BASE_URL}${endpoint}`, {
-        headers: { Authorization: `Bearer ${TOKEN_READ_ACCES}`, accept: "application/json" },
+        headers: { Authorization: `Bearer ${TOKEN}`, accept: "application/json" },
       });
       if (!response.ok) {
         throw new Error("Error al cargar las películas");
