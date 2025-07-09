@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "shared-components";
+import { Button, SearchBar } from "shared-components";
 import "./index.css";
 const FilmCatalogApp = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+  const TOKEN = process.env.TOKEN_READ_ACCES;
   if (!API_KEY) {
     console.error(
       "TMDB_API_KEY no está configurada en las variables de entorno",
@@ -18,13 +20,17 @@ const FilmCatalogApp = () => {
     window.history.pushState(null, "", `/details/${id}`);
     window.dispatchEvent(new PopStateEvent("popstate"));
   };
-  const fetchMovies = async (page = 1) => {
+  const fetchMovies = async (page = 1, query = "") => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(
-        `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${page}`,
-      );
+      const endpoint = query
+        ? `/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=es-ES&page=${page}`
+        : `/movie/popular?api_key=${API_KEY}&language=es-ES&page=${page}`;
+
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        headers: { Authorization: `Bearer ${TOKEN}`, accept: "application/json" },
+      });
       if (!response.ok) {
         throw new Error("Error al cargar las películas");
       }
@@ -44,6 +50,12 @@ const FilmCatalogApp = () => {
   useEffect(() => {
     fetchMovies();
   }, []);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    fetchMovies(1, query);
+  };
+
   const loadMoreMovies = () => {
     fetchMovies(currentPage + 1);
   };
@@ -121,13 +133,14 @@ const FilmCatalogApp = () => {
           🎬 Film Catalog MFE
         </h1>
         <p className="text-gray-500 mt-2">
-          Descubre las películas más populares
+          {searchQuery ? `Resultados para "${searchQuery}"` : "Descubre las películas más populares"}
         </p>
       </header>
       <div className="mb-6 flex flex-wrap justify-center gap-4">
+        <SearchBar placeholder="Buscar películas..." onSearch={handleSearch} />
         <Button
           variant="primary"
-          onClick={() => fetchMovies(1)}
+          onClick={() => {setSearchQuery(""); fetchMovies(1)}}
           disabled={loading}
         >
           🔄 Actualizar Catálogo

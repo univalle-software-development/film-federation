@@ -70,6 +70,10 @@ module.exports = {
         process.env.REACT_APP_TMDB_API_KEY ||
           dotenv.parsed?.REACT_APP_TMDB_API_KEY || "",
       ),
+      "process.env.TOKEN_READ_ACCES": JSON.stringify(
+        process.env.TOKEN_READ_ACCES ||
+          dotenv.parsed?.TOKEN_READ_ACCES || "",
+      ),
     }),
   ],
 };
