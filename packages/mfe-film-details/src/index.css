@@ -2,18 +2,23 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Importar fuentes para un estilo moderno y futurista */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap');
+
+/* Variables CSS para los temas (Día y Noche) */
 :root {
-  --color-primary: #0004ee;
+  /* Modo Día */
+  --color-primary: #0004ee; /* Azul profundo original */
   --color-on-primary: #ffffff;
-  --color-primary-container: #ede7f6;
+  --color-primary-container: #ede7f6; /* Usará el color que tengas definido */
   --color-on-primary-container: #21005d;
 
-  --color-secondary: #03dac6;
+  --color-secondary: #03dac6; /* Cian original */
   --color-on-secondary: #000000;
   --color-secondary-container: #a2edeb;
   --color-on-secondary-container: #002c29;
 
-  --color-background: #f5f5f5;
+  --color-background: #f5f5f5; /* Fondo más simple */
   --color-on-background: #121212;
   --color-on-background-variant: #424242;
 
@@ -32,9 +37,10 @@
 }
 
 body.dark {
-  --color-primary: #bb86fc;
+  /* Modo Noche */
+  --color-primary: #bb86fc; /* Púrpura claro original */
   --color-on-primary: #000000;
-  --color-primary-container: #0054b3;
+  --color-primary-container: #0054b3; /* Usará el color que tengas definido */
   --color-on-primary-container: #ffffff;
 
   --color-secondary: #03dac6;
@@ -60,6 +66,7 @@ body.dark {
   --color-shadow: rgba(255, 255, 255, 0.1);
 }
 
+/* Mapeo de variables CSS a clases de Tailwind */
 .bg-primary { background-color: var(--color-primary); }
 .text-primary { color: var(--color-primary); }
 .bg-on-primary { background-color: var(--color-on-primary); }
@@ -94,19 +101,28 @@ body.dark {
 .shadow-lg { box-shadow: 0 10px 15px -3px var(--color-shadow), 0 4px 6px -2px var(--color-shadow); }
 .shadow-md { box-shadow: 0 4px 6px -1px var(--color-shadow), 0 2px 4px -1px var(--color-shadow); }
 
+
+/* Estilos generales */
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif; /* Usamos Montserrat por defecto */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.app-container {
+h1, h2 { /* Aplicar Orbitron o un estilo similar solo a títulos principales si quieres un toque futurista */
+  font-family: 'Orbitron', sans-serif; /* Puedes ajustar esto a 'Montserrat' si quieres simplicidad total */
+}
+
+/* Contenedores principales (del catálogo y detalles) */
+.app-container, .detail-container {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 1.5rem;
   box-shadow: var(--color-shadow) 0px 8px 24px;
   border-radius: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* La tarjeta de película del catálogo */
 .movie-card {
   box-shadow: var(--color-shadow) 0px 4px 12px;
   border: 1px solid var(--color-outline);
@@ -115,9 +131,15 @@ body {
 
 .movie-card:hover {
   box-shadow: var(--color-shadow) 0px 10px 30px;
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.03); /* Efecto de levantamiento y un poco de zoom */
 }
 
+/* El póster de la película en la página de detalles */
+.detail-container .w-full.rounded-lg.shadow-md.transform.hover\\:scale-105 {
+    transition: transform 0.3s ease; /* Asegura la transición de zoom en el póster de detalles */
+}
+
+/* Estilos para SearchBar y Button de shared-components */
 .shared-components-search-bar input {
   background-color: var(--color-surface-variant) !important;
   color: var(--color-on-surface-variant) !important;
@@ -146,11 +168,33 @@ body {
   border: 1px solid var(--color-primary) !important;
 }
 
+/* Animaciones */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.animate-spin {
+.loader {
   animation: spin 1s linear infinite;
+  border: 8px solid var(--color-outline);
+  border-top: 8px solid var(--color-primary);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+@keyframes bounce-once {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounce-once {
+  animation: bounce-once 0.6s ease-in-out;
 }
