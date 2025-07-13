@@ -1,0 +1,200 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Importar fuentes para un estilo moderno y futurista */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap');
+
+/* Variables CSS para los temas (Día y Noche) */
+:root {
+  /* Modo Día */
+  --color-primary: #0004ee; /* Azul profundo original */
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ede7f6; /* Usará el color que tengas definido */
+  --color-on-primary-container: #21005d;
+
+  --color-secondary: #03dac6; /* Cian original */
+  --color-on-secondary: #000000;
+  --color-secondary-container: #a2edeb;
+  --color-on-secondary-container: #002c29;
+
+  --color-background: #f5f5f5; /* Fondo más simple */
+  --color-on-background: #121212;
+  --color-on-background-variant: #424242;
+
+  --color-surface: #ffffff;
+  --color-on-surface: #121212;
+  --color-surface-variant: #e0e0e0;
+  --color-on-surface-variant: #424242;
+
+  --color-error: #b00020;
+  --color-on-error: #ffffff;
+  --color-error-container: #fcdbdc;
+  --color-on-error-container: #410002;
+
+  --color-outline: #bdbdbd;
+  --color-shadow: rgba(0, 0, 0, 0.15);
+}
+
+body.dark {
+  /* Modo Noche */
+  --color-primary: #bb86fc; /* Púrpura claro original */
+  --color-on-primary: #000000;
+  --color-primary-container: #0054b3; /* Usará el color que tengas definido */
+  --color-on-primary-container: #ffffff;
+
+  --color-secondary: #03dac6;
+  --color-on-secondary: #000000;
+  --color-secondary-container: #005a55;
+  --color-on-secondary-container: #ffffff;
+
+  --color-background: #121212;
+  --color-on-background: #ffffff;
+  --color-on-background-variant: #e0e0e0;
+
+  --color-surface: #1e1e1e;
+  --color-on-surface: #ffffff;
+  --color-surface-variant: #333333;
+  --color-on-surface-variant: #e0e0e0;
+
+  --color-error: #cf6679;
+  --color-on-error: #000000;
+  --color-error-container: #690005;
+  --color-on-error-container: #ffffff;
+
+  --color-outline: #424242;
+  --color-shadow: rgba(255, 255, 255, 0.1);
+}
+
+/* Mapeo de variables CSS a clases de Tailwind */
+.bg-primary { background-color: var(--color-primary); }
+.text-primary { color: var(--color-primary); }
+.bg-on-primary { background-color: var(--color-on-primary); }
+.text-on-primary { color: var(--color-on-primary); }
+.bg-primary-container { background-color: var(--color-primary-container); }
+.text-on-primary-container { color: var(--color-on-primary-container); }
+
+.bg-secondary { background-color: var(--color-secondary); }
+.text-secondary { color: var(--color-secondary); }
+.bg-on-secondary { background-color: var(--color-on-secondary); }
+.text-on-secondary { color: var(--color-on-secondary); }
+.bg-secondary-container { background-color: var(--color-secondary-container); }
+.text-on-secondary-container { color: var(--color-on-secondary-container); }
+
+.bg-background { background-color: var(--color-background); }
+.text-on-background { color: var(--color-on-background); }
+.text-on-background-variant { color: var(--color-on-background-variant); }
+
+.bg-surface { background-color: var(--color-surface); }
+.text-on-surface { color: var(--color-on-surface); }
+.bg-surface-variant { background-color: var(--color-surface-variant); }
+.text-on-surface-variant { color: var(--color-on-surface-variant); }
+
+.bg-error { background-color: var(--color-error); }
+.text-error { color: var(--color-error); }
+.bg-on-error { background-color: var(--color-on-error); }
+.text-on-error { color: var(--color-on-error); }
+.bg-error-container { background-color: var(--color-error-container); }
+.text-on-error-container { color: var(--color-on-error-container); }
+
+.border-outline { border-color: var(--color-outline); }
+.shadow-lg { box-shadow: 0 10px 15px -3px var(--color-shadow), 0 4px 6px -2px var(--color-shadow); }
+.shadow-md { box-shadow: 0 4px 6px -1px var(--color-shadow), 0 2px 4px -1px var(--color-shadow); }
+
+
+/* Estilos generales */
+body {
+  font-family: 'Montserrat', sans-serif; /* Usamos Montserrat por defecto */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2 { /* Aplicar Orbitron o un estilo similar solo a títulos principales si quieres un toque futurista */
+  font-family: 'Orbitron', sans-serif; /* Puedes ajustar esto a 'Montserrat' si quieres simplicidad total */
+}
+
+/* Contenedores principales (del catálogo y detalles) */
+.app-container, .detail-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  box-shadow: var(--color-shadow) 0px 8px 24px;
+  border-radius: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* La tarjeta de película del catálogo */
+.movie-card {
+  box-shadow: var(--color-shadow) 0px 4px 12px;
+  border: 1px solid var(--color-outline);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.movie-card:hover {
+  box-shadow: var(--color-shadow) 0px 10px 30px;
+  transform: translateY(-5px) scale(1.03); /* Efecto de levantamiento y un poco de zoom */
+}
+
+/* El póster de la película en la página de detalles */
+.detail-container .w-full.rounded-lg.shadow-md.transform.hover\\:scale-105 {
+    transition: transform 0.3s ease; /* Asegura la transición de zoom en el póster de detalles */
+}
+
+/* Estilos para SearchBar y Button de shared-components */
+.shared-components-search-bar input {
+  background-color: var(--color-surface-variant) !important;
+  color: var(--color-on-surface-variant) !important;
+  border: 1px solid var(--color-outline) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+}
+
+.shared-components-search-bar button {
+  background-color: var(--color-primary) !important;
+  color: var(--color-on-primary) !important;
+  border-radius: 0.5rem !important;
+}
+
+.shared-components-button.primary {
+  background-color: var(--color-primary) !important;
+  color: var(--color-on-primary) !important;
+}
+.shared-components-button.secondary {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-on-secondary) !important;
+}
+.shared-components-button.outline {
+  background-color: transparent !important;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-primary) !important;
+}
+
+/* Animaciones */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+  border: 8px solid var(--color-outline);
+  border-top: 8px solid var(--color-primary);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+@keyframes bounce-once {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-bounce-once {
+  animation: bounce-once 0.6s ease-in-out;
+}
