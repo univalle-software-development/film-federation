@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'shared-components';
-import { BrowserRouter, Routes, Route, useParams, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import './index.css';
 
 const DetailsPage = () => {
@@ -8,15 +8,23 @@ const DetailsPage = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
-  // ADVERTENCIA DE SEGURIDAD: CLAVES HARCODEADAS DIRECTAMENTE EN EL CÓDIGO.
-  // ESTO NO ES SEGURO PARA PRODUCCIÓN Y DEBE EVITARSE SI ES POSIBLE.
-  const API_KEY = "4c0f24bb91c4a19ce18b6135d4e80707";
-  const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YzBmMjRiYjkxYzRhMTljZTE4YjYxMzVkNGU4MDcwNyIsIm5iZiI6MTc1MjM1MTg3OS4wMiwic3ViIjoiNjg3MmM0ODdmNmJiMDdiNWIyYzViODIwIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.TmVhDXj76KouXubaH4MEobYFlDc1ba60grkZ6QFsl7c";
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+  const TOKEN = process.env.TOKEN_READ_ACCES;
+
+  if (!API_KEY) {
+    console.error(
+      "TMDB_API_KEY no está configurada en las variables de entorno",
+    );
+  }
 
   const BASE_URL = "https://api.themoviedb.org/3";
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
+  const goToCatalog = () => {
+    window.history.pushState(null, "", '/catalog');
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
 
   const fetchMovie = async () => {
     try {
@@ -68,14 +76,10 @@ const DetailsPage = () => {
     return (
       <div className="detail-container bg-background text-on-background min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-300">
         <p className="text-on-background-variant text-2xl font-semibold">Película no encontrada.</p>
-        <Button variant="primary" onClick={() => {
-          // Opción 1: Navegar a la ruta raíz del host si es donde está el catálogo
-          window.location.href = '/'; 
-          // Opción 2 (más segura para volver atrás):
-          // window.history.back(); 
-          // Opción 3 (si el catálogo está en una ruta específica):
-          // window.location.href = '/catalogo'; // O la ruta correcta
-        }} className="mt-6">
+        <Button variant="primary"
+          onClick={() => goToCatalog()}
+          className="mt-6"
+        >
           ⬅️ Volver al Catálogo
         </Button>
       </div>
@@ -131,16 +135,7 @@ const DetailsPage = () => {
             <Button variant="primary" onClick={() => window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`, '_blank')}>
               ▶️ Ver Trailer
             </Button>
-            <Button variant="secondary" onClick={() => {
-              // Si navigate('/') no funciona, prueba con window.location.href o window.history.back()
-              // Opción más fiable para MFEs: redirigir a una URL absoluta que sabes que es la del catálogo.
-              // Reemplaza '/ruta-a-tu-catalogo' con la URL real donde está el catálogo.
-              window.location.href = '/'; // Prueba con la raíz
-              // O si tienes una ruta específica:
-              // window.location.href = '/catalogo';
-              // O para simplemente ir a la página anterior en el historial:
-              // window.history.back();
-            }}>
+            <Button variant="secondary" onClick={() => goToCatalog()}>
               ⬅️ Volver al Catálogo
             </Button>
           </div>
