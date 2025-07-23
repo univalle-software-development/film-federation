@@ -74,6 +74,7 @@ module.exports = {
         process.env.TOKEN_READ_ACCES ||
           dotenv.parsed?.TOKEN_READ_ACCES || "",
       ),
+      'process.env.API_BASE_URL': JSON.stringify('http://localhost'),
     }),
   ],
 };

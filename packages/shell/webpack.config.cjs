@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('@module-federation/enhanced/webpack');
 const path = require('path');
 const deps = require('./package.json').dependencies;
-
 module.exports = {
   entry: './src/main.jsx', // Your current entry point
   mode: 'development',
@@ -53,7 +52,8 @@ module.exports = {
       remotes: {
         // This key must match the remoteName you pass to MFEComponentLoader
         mfeFilmCatalog: 'mfeFilmCatalog@http://localhost:5001/remoteEntry.js',
-        mfeFilmDetails: 'mfeFilmDetails@http://localhost:5002/remoteEntry.js'
+        mfeFilmDetails: 'mfeFilmDetails@http://localhost:5002/remoteEntry.js',
+        mfeUserRegistration: 'mfeUserRegistration@http://localhost:5005/remoteEntry.js'
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },

@@ -1,31 +1,30 @@
-// packages/mfe-film-details/webpack.config.cjs
+// packages/mfe-user-registration/webpack.config.cjs
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require(
-  '@module-federation/enhanced/webpack'
-);
-const webpack = require("webpack");
-const dotenv = require("dotenv");
+const { ModuleFederationPlugin } = require('webpack').container;
 const path = require('path');
 const deps = require('./package.json').dependencies;
-dotenv.config();
+const webpack = require('webpack');
+// CHOOSE A UNIQUE PORT (e.g., 5005, 5006, etc.)
+const MFE_PORT = 5005; // Replace X with a unique number
+
 module.exports = {
-  entry: "./src/main.jsx",
+  entry: './src/main.jsx',
   mode: 'development',
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    port: 5002,
+    port: MFE_PORT,
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
     }
   },
   output: {
-    publicPath: "http://localhost:5002/",
+    publicPath: `http://localhost:${MFE_PORT}/`,
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json"],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     rules: [
@@ -51,10 +50,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "mfeFilmDetails", // Unique name for this MFE (camelCase)
-      filename: "remoteEntry.js",
+      name: 'mfeUserRegistration', // Unique name for this MFE (camelCase)
+      filename: 'remoteEntry.js',
       exposes: {
-        "./FilmDetailsApp": "./src/FilmDetailsApp.jsx",
+        './UserRegistration': './src/UserRegistration.jsx',
       },
       shared: {
         react: { singleton: true, requiredVersion: deps.react },
@@ -63,16 +62,8 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({ template: './index.html' }),
-    new webpack.DefinePlugin({
-      "process.env.REACT_APP_TMDB_API_KEY": JSON.stringify(
-        process.env.REACT_APP_TMDB_API_KEY ||
-          dotenv.parsed?.REACT_APP_TMDB_API_KEY || "",
-      ),
-      "process.env.TOKEN_READ_ACCES": JSON.stringify(
-        process.env.TOKEN_READ_ACCES ||
-          dotenv.parsed?.TOKEN_READ_ACCES || "",
-      ),
-      'process.env.API_BASE_URL': JSON.stringify('http://localhost'),
+    new webpack.DefinePlugin({                              
+      'process.env.API_BASE_URL': JSON.stringify('http://localhost')
     }),
   ],
 };
